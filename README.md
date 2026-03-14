@@ -15,15 +15,12 @@ A full-stack Deep Learning application that classifies vehicle images into **7 d
 ## 📂 Project Structure
 
 ```plaintext
-├── data/               # Training dataset (7 subfolders)
-├── models/             
-│   └── vehicle_model.pth # Saved model weights
-├── notebooks/          
-│   └── training.ipynb   # Jupyter notebook for model development
-├── static/             
-│   └── index.html       # Web frontend
-├── main.py             # FastAPI backend server
-├── requirements.txt    # Project dependencies
+├── vehicles/              # Training dataset (7 subfolders)
+├── vehicle_model.pth      # Saved model weights
+├── main.ipynb             # Jupyter notebook for model development
+├── main.html              # Web frontend
+├── server.py              # FastAPI backend server
+├── requirements.txt       # Project dependencies
 └── README.md
 ```
 
