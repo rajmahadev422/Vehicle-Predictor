@@ -144,7 +144,7 @@
         loader.classList.remove('active');
         resultDiv.textContent = `Prediction: ${data.prediction}`;
         resultBadge.className = 'result-badge';
-        resultBadge.textContent = 'My Model Prediction';
+        resultBadge.textContent = `My Model Prediction Score: ${data.score}`;
 
       } catch (error) {
         loader.classList.remove('active');

@@ -72,11 +72,13 @@ async def predict(file: UploadFile = File(...)):
   # 3. Predict
   with torch.no_grad():
     outputs = model(img_tensor)
-    _, predicted_idx = torch.max(outputs, 1)
-    print(predicted_idx)
-  class_name = CLASSES[predicted_idx.item()-1]
+    prob = F.softmax(outputs, dim=1)
+    conf, predicted_idx = torch.max(prob, 1)
+
+  class_name = CLASSES[predicted_idx.item()]
+  score = (conf.item()*100)
   
-  return {"prediction": class_name}
+  return {"prediction": class_name, "score": score}
 
 if __name__ == "__main__":
   import uvicorn

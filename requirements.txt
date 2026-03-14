@@ -1,4 +1,13 @@
+# Core Machine Learning
 torch
 torchvision
-matplotlib
 numpy
+matplotlib
+
+# Backend API
+fastapi
+uvicorn
+python-multipart
+
+# Image Processing
+Pillow
