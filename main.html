@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Vehicle Type Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="vp-header">
+      <div class="vp-title">
+        <div class="vp-title-icon">🚗</div>
+        Vehicle Type Predictor
+      </div>
+      <div class="vp-subtitle">Upload · Analyze · Identify</div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="imageUpload" accept="image/*">
+
+    <!-- Drop Zone -->
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-icon" id="dropIcon">📁</div>
+      <div class="drop-label" id="dropLabel">Drop an image or click to browse</div>
+      <div class="drop-hint" id="dropHint">Supports JPG, PNG, WEBP</div>
+      <img id="preview" src="#" alt="your image">
+      <div class="img-overlay" id="imgOverlay">
+        <button class="change-btn" id="changeBtn">Change image</button>
+      </div>
+    </div>
+
+    <!-- Analyze Button -->
+    <button class="predict-btn" id="predictBtn" disabled>Analyze vehicle →</button>
+
+    <!-- Result Card -->
+    <div class="result-card">
+      <div class="result-label">Prediction</div>
+
+      <!-- Loader -->
+      <div class="loader" id="loader">
+        <div class="loader-text">Processing image...</div>
+        <div class="dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="scan-bar"></div>
+      </div>
+
+      <!-- Idle -->
+      <div class="result-idle" id="resultIdle">
+        <div class="idle-dot"></div>
+        Upload an image to see the prediction
+      </div>
+
+      <!-- Result -->
+      <div class="result-content" id="resultContent">
+        <div id="result">—</div>
+        <div id="resultBadge" class="result-badge">AI Prediction</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const imageUpload = document.getElementById('imageUpload');
+    const preview = document.getElementById('preview');
+    const dropZone = document.getElementById('dropZone');
+    const dropIcon = document.getElementById('dropIcon');
+    const dropLabel = document.getElementById('dropLabel');
+    const dropHint = document.getElementById('dropHint');
+    const predictBtn = document.getElementById('predictBtn');
+    const loader = document.getElementById('loader');
+    const resultIdle = document.getElementById('resultIdle');
+    const resultContent = document.getElementById('resultContent');
+    const resultDiv = document.getElementById('result');
+    const resultBadge = document.getElementById('resultBadge');
+    const changeBtn = document.getElementById('changeBtn');
+
+    let currentFile = null;
+
+    function setImage(file) {
+      currentFile = file;
+      preview.src = URL.createObjectURL(file);
+      preview.classList.add('visible');
+      dropZone.classList.add('has-image');
+      dropIcon.style.display = 'none';
+      dropLabel.style.display = 'none';
+      dropHint.style.display = 'none';
+      predictBtn.classList.add('visible');
+      predictBtn.disabled = false;
+      resultContent.classList.remove('visible');
+      resultIdle.style.display = 'flex';
+    }
+
+    // Click to open file dialog
+    dropZone.addEventListener('click', () => {
+      if (!dropZone.classList.contains('has-image')) imageUpload.click();
+    });
+
+    changeBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      imageUpload.click();
+    });
+
+    imageUpload.addEventListener('change', function () {
+      if (this.files[0]) setImage(this.files[0]);
+    });
+
+    // Drag & drop
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      if (e.dataTransfer.files[0]) setImage(e.dataTransfer.files[0]);
+    });
+
+    // Analyze — sends to your FastAPI backend
+    predictBtn.addEventListener('click', async () => {
+      if (!currentFile) return;
+
+      predictBtn.disabled = true;
+      loader.classList.add('active');
+      resultIdle.style.display = 'none';
+      resultContent.classList.remove('visible');
+
+      const formData = new FormData();
+      formData.append('file', currentFile);
+
+      try {
+        const response = await fetch('http://localhost:8000/predict', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+
+        loader.classList.remove('active');
+        resultDiv.textContent = `Prediction: ${data.prediction}`;
+        resultBadge.className = 'result-badge';
+        resultBadge.textContent = 'My Model Prediction';
+
+      } catch (error) {
+        loader.classList.remove('active');
+        resultDiv.textContent = 'Error connecting to server.';
+        resultBadge.className = 'result-badge error';
+        resultBadge.textContent = 'Connection failed';
+      }
+
+      resultContent.classList.add('visible');
+      predictBtn.disabled = false;
+    });
+  </script>
+
+</body>
+
+</html>
