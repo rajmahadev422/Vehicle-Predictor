@@ -1,16 +1,16 @@
 # 🏎️ Vehicle Type Classification System
 
-A full-stack Deep Learning application that classifies vehicle images into 7 distinct categories using a Convolutional Neural Network (CNN). The project features a high-performance REST API for real-time inference and a clean web interface for user interaction.
+A full-stack Deep Learning application that classifies vehicle images into **7 distinct** categories using a **Convolutional Neural Network (CNN)**. The project features a high-performance **REST API** for real-time inference and a clean web interface for user interaction.
 
 ## 🌟 Key Features
 
-* Custom CNN Architecture: Optimized for feature extraction (wheels, grilles, headlights).
+* **Custom CNN Architecture:** Optimized for feature extraction (wheels, grilles, headlights).
 
-* FastAPI Backend: Asynchronous image processing and model serving.
+* **FastAPI Backend:** Asynchronous image processing and model serving.
 
-* Real-time Inference: Predicts vehicle types in milliseconds.
+* **Real-time Inference:** Predicts vehicle types in milliseconds.
 
-* Responsive UI: Simple HTML/JS interface with live image previews.
+* **Responsive UI:** Simple HTML/JS interface with live image previews.
 
 ## 📂 Project Structure
 
@@ -37,7 +37,7 @@ A full-stack Deep Learning application that classifies vehicle images into 7 dis
 
 * **Classifier:** Flattened layer followed by a 128-node Dense layer and a 7-node output layer representing:
 
-* Car, Truck, Motorcycle, bikes, train and Other.
+* Car, Motorcycle, bikes, train and Other.
 
 ## 🚀 Installation & Setup
 
@@ -45,7 +45,7 @@ A full-stack Deep Learning application that classifies vehicle images into 7 dis
 
     ```bash
     git clone https://github.com/yourusername/vehicle-classification.git
-    cd vehicle-classification
+    cd vehicle-predictor
     ```
 
 2. **Install Dependencies**
@@ -64,7 +64,7 @@ A full-stack Deep Learning application that classifies vehicle images into 7 dis
 
 ## 🖥️ Usage
 
-* Open static/index.html in your browser.
+* Open `index.html` in your browser.
 
 * Upload an image of a vehicle (JPG/PNG).
 
@@ -72,10 +72,10 @@ A full-stack Deep Learning application that classifies vehicle images into 7 dis
 
 ## 📊 Technical Implementation
 
-* DetailsPreprocessing: Images are resized to 224x224 and normalized using ImageNet mean/std.
+* **DetailsPreprocessing:** Images are resized to `224x224` and normalized using ImageNet mean/std.
 
-* Optimizer: Adam ($LR=0.001$).
+* **Optimizer:** Adam ($LR=0.001$).
 
-* Loss Function: Cross-Entropy Loss.
+* **Loss Function:** Cross-Entropy Loss.
 
-* Inference: model.eval() mode with torch.no_grad() to ensure speed and efficiency.
+* **Inference:** `model.eval()` mode with `torch.no_grad()` to ensure speed and efficiency.
