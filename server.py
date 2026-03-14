@@ -77,6 +77,8 @@ async def predict(file: UploadFile = File(...)):
 
   class_name = CLASSES[predicted_idx.item()]
   score = (conf.item()*100)
+  if score < 90:
+    class_name = "Other / Unknown"
   
   return {"prediction": class_name, "score": f"{score:.2f}"}
 

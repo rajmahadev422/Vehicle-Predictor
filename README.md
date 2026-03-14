@@ -67,6 +67,8 @@ A full-stack Deep Learning application that classifies vehicle images into **7 d
 
 * The system will send the image to the FastAPI backend, process it through the PyTorch model, and display the result instantly.
 
+* I implemented a **Confidence Thresholding** mechanism. If the **Softmax probability** fell below 50%, the system flags the input as *Unknown/Other* to prevent false positives and improve model reliability.
+
 ## 📊 Technical Implementation
 
 * **DetailsPreprocessing:** Images are resized to `224x224` and normalized using ImageNet mean/std.
