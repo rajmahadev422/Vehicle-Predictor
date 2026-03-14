@@ -78,7 +78,7 @@ async def predict(file: UploadFile = File(...)):
   class_name = CLASSES[predicted_idx.item()]
   score = (conf.item()*100)
   
-  return {"prediction": class_name, "score": score}
+  return {"prediction": class_name, "score": f"{score:.2f}"}
 
 if __name__ == "__main__":
   import uvicorn
