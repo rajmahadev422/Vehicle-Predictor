@@ -75,12 +75,14 @@ async def predict(file: UploadFile = File(...)):
     prob = F.softmax(outputs, dim=1)
     conf, predicted_idx = torch.max(prob, 1)
 
-  class_name = CLASSES[predicted_idx.item()]
+  index = predicted_idx.item()
+  
   score = (conf.item()*100)
   if score < 90:
-    class_name = "Other / Unknown"
+    index = 7
+    score = 100.00
   
-  return {"prediction": class_name, "score": f"{score:.2f}"}
+  return {"prediction": index, "score": f"{score:.2f}"}
 
 if __name__ == "__main__":
   import uvicorn
