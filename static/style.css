@@ -1,0 +1,98 @@
+/* custom extras that Tailwind doesn't cover: backdrop-blur + keyframe animations */
+body {
+  font-family: 'DM Sans', sans-serif;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* subtle grid animation */
+@keyframes gridPulse {
+  0% {
+    opacity: 0.2;
+    background-size: 50px 50px;
+  }
+
+  100% {
+    opacity: 0.5;
+    background-size: 55px 55px;
+  }
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(30, 150, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 150, 255, 0.08) 1px, transparent 1px);
+  animation: gridPulse 10s infinite alternate;
+}
+
+/* floating particles (handful, responsive) */
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(70, 170, 255, 0.2);
+  filter: blur(3px);
+  animation: float 18s infinite linear;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) scale(0.6);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(-20vh) scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* custom loader dots */
+.dot-pulse {
+  animation: pulseDot 1.4s infinite;
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+.scan-line {
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  animation: scanMove 1.8s infinite;
+}
+
+@keyframes scanMove {
+  0% {
+    width: 2rem;
+    opacity: 0.2;
+  }
+
+  50% {
+    width: 12rem;
+    opacity: 1;
+  }
+
+  100% {
+    width: 2rem;
+    opacity: 0.2;
+  }
+}

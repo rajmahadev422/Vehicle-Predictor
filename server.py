@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.middleware.cors import CORSMiddleware
 import torch
 import torch.nn as nn
@@ -6,6 +6,9 @@ from torch.nn import functional as F
 from torchvision import transforms
 from PIL import Image
 import io
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -60,6 +63,16 @@ transform = transforms.Compose([
   transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+app.mount("/public", StaticFiles(directory="public"), name="public")
+
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+  return templates.TemplateResponse("main.html", {"request": request})
+
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
   # 1. Read image
@@ -86,4 +99,4 @@ async def predict(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
   import uvicorn
-  uvicorn.run(app, host="0.0.0.0", port=8000)
+  uvicorn.run(app, port=8000)
