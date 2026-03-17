@@ -2,6 +2,8 @@
 
 A full-stack Deep Learning application that classifies vehicle images into **7 distinct** categories using a **Convolutional Neural Network (CNN)**. The project features a high-performance **REST API** for real-time inference and a clean web interface for user interaction.
 
+![Website](/public/image.png)
+
 ## 🌟 Key Features
 
 * **Custom CNN Architecture:** Optimized for feature extraction (wheels, grilles, headlights).
